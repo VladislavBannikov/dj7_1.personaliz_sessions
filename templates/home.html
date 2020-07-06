@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Угадай число{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1>Игра "Угадай число"</h1>
+            {% if game_info.is_user_creator %}
+
+                <p>Загадано число: {{ game.number }}</p>
+                <p>Игра завершена: {{ game.is_completed }}</p>
+                <p>Сделано попыток: {{ game.attempts_count}}</p>
+
+            {% else %}
+                <p>{{ message }}</p>
+                {% if not game.is_completed %}
+                    <p>Загадано число между {{ game.min_number }} и {{ game.max_number }}</p>
+                    <form action="/" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" value="Проверить">
+                    </form>
+                {% endif %}
+
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
